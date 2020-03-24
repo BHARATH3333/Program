@@ -1,0 +1,77 @@
+package com.jdbc;
+
+import java.util.HashMap; 
+import java.util.Map; 
+class Program2  
+{ 
+    int key; 
+    Program2 left, right, parent; 
+  
+    Program2(int key)  
+    { 
+        this.key = key; 
+        left = right = parent = null; 
+    } 
+} 
+  
+class BinaryTree  
+{ 
+    Program2 root, n1, n2, lca; 
+  
+    Program2 insert(Program2 Program2, int key)  
+    { 
+        if (Program2 == null) 
+            return new Program2(key); 
+  
+        if (key < Program2.key)  
+        { 
+            Program2.left = insert(Program2.left, key); 
+            Program2.left.parent = Program2; 
+        } 
+        else if (key > Program2.key)  
+        { 
+            Program2.right = insert(Program2.right, key); 
+            Program2.right.parent = Program2; 
+        } 
+  
+        return Program2; 
+    } 
+  
+    Program2 LCA(Program2 n1, Program2 n2)  
+    { 
+        Map<Program2, Boolean> ancestors = new HashMap<Program2, Boolean>(); 
+  
+        while (n1 != null)  
+        { 
+            ancestors.put(n1, Boolean.TRUE); 
+            n1 = n1.parent; 
+        } 
+  
+        while (n2 != null)  
+        { 
+            if (ancestors.containsKey(n2) != ancestors.isEmpty()) 
+                return n2; 
+            n2 = n2.parent; 
+        } 
+  
+        return null; 
+    } 
+  
+    public static void main(String[] args)  
+    { 
+        BinaryTree tree = new BinaryTree(); 
+        tree.root = tree.insert(tree.root, 2); 
+        tree.root = tree.insert(tree.root, 1); 
+        tree.root = tree.insert(tree.root, 3); 
+        tree.root = tree.insert(tree.root, 4); 
+        tree.root = tree.insert(tree.root, 5); 
+        tree.root = tree.insert(tree.root, 6); 
+  
+        tree.n1 = tree.root.left.right.left; 
+        tree.n2 = tree.root.left; 
+        tree.lca = tree.LCA(tree.n1, tree.n2); 
+  
+        System.out.println("LCA of " + tree.n1.key + " and " + tree.n2.key 
+                + " is " + tree.lca.key); 
+    } 
+} 
